@@ -22,14 +22,15 @@
 
 module camera_configure
     #(
-    parameter CLK_FREQ=25000000
+    parameter CLK_FREQ=100000000
     )
     (
     input wire clk,
     input wire start,
     output wire sioc,
     output wire siod,
-    output wire done
+    output wire done,
+    output wire x_clock
     );
     
     wire [7:0] rom_addr;
@@ -40,9 +41,39 @@ module camera_configure
     wire SCCB_ready;
     wire SCCB_SIOC_oe;
     wire SCCB_SIOD_oe;
+
+    wire siod_in, siod_out, sioc_in, sioc_out;
+    reg [1:0] clkpre = 2'b00;
+
+    always @(posedge clk)
+    begin
+      clkpre <= clkpre + 1;
+    end
+
+    assign x_clock = clkpre[1];
+
+    SB_IO #(
+	.PIN_TYPE(6'b 1010_01),
+	.PULLUP(1'b 1)
+    ) siod_io (
+	.PACKAGE_PIN(siod),
+	.OUTPUT_ENABLE(SCCB_SIOD_oe),
+	.D_OUT_0(siod_out),
+	.D_IN_0(siod_in)
+    );
+
+    SB_IO #(
+	.PIN_TYPE(6'b 1010_01),
+	.PULLUP(1'b 1)
+    ) sioc_io (
+	.PACKAGE_PIN(sioc),
+	.OUTPUT_ENABLE(SCCB_SIOC_oe),
+	.D_OUT_0(sioc_out),
+	.D_IN_0(sioc_in)
+    );
     
-    assign sioc = SCCB_SIOC_oe ? 1'b0 : 1'bZ;
-    assign siod = SCCB_SIOD_oe ? 1'b0 : 1'bZ;
+    assign sioc_out = !SCCB_SIOC_oe;
+    assign siod_out = !SCCB_SIOD_oe;
     
     OV7670_config_rom rom1(
         .clk(clk),
@@ -54,7 +85,7 @@ module camera_configure
         .clk(clk),
         .SCCB_interface_ready(SCCB_ready),
         .rom_data(rom_dout),
-        .start(start),
+        .start(!start),
         .rom_addr(rom_addr),
         .done(done),
         .SCCB_interface_addr(SCCB_addr),

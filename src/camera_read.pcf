@@ -1,0 +1,49 @@
+set_io clk 129
+
+set_io vsync 99
+set_io href 98
+
+set_io p_clock 102
+set_io x_clock 101
+
+set_io p_data[7] 105
+set_io p_data[6] 104
+set_io p_data[5] 107
+set_io p_data[4] 106
+set_io p_data[3] 112
+set_io p_data[2] 110
+set_io p_data[1] 114
+set_io p_data[0] 113
+
+set_io frame_done 71
+set_io pixel_valid 67
+
+#set_io pixel_data[15] 10
+#set_io pixel_data[14] 9
+#set_io pixel_data[13] 2
+#set_io pixel_data[12] 1
+#set_io pixel_data[11] 8
+#set_io pixel_data[10] 7
+#set_io pixel_data[9] 4
+#set_io pixel_data[8] 3
+#set_io pixel_data[7] 20
+#set_io pixel_data[6] 19
+#set_io pixel_data[5] 16
+#set_io pixel_data[4] 15
+#set_io pixel_data[3] 18
+#set_io pixel_data[2] 17
+#set_io pixel_data[1] 12
+#set_io pixel_data[0] 11
+
+set_io DIGIT 1
+set_io SEG[0] 2
+set_io SEG[1] 9
+set_io SEG[2] 10
+set_io SEG[3] 15
+set_io SEG[4] 16
+set_io SEG[5] 19
+set_io SEG[6] 20
+
+set_io vsync_copy 68
+set_io href_copy 70
+

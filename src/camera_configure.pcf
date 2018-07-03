@@ -1,0 +1,9 @@
+set_io clk 129
+
+set_io siod 96
+set_io sioc 97
+
+set_io start 63
+set_io done 71
+
+set_io x_clock 101

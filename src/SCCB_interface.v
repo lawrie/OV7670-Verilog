@@ -52,9 +52,9 @@ module SCCB_interface
     
     
     initial begin 
-        SIOC_oe = 0;
-        SIOD_oe = 0;
-        ready = 1;
+        SIOC_oe <= 0;
+        SIOD_oe <= 0;
+        ready <= 1;
     end
     
     reg [3:0] FSM_state = 0;
@@ -74,6 +74,8 @@ module SCCB_interface
             FSM_IDLE: begin
                 byte_index <= 0;
                 byte_counter <= 0;
+		SIOC_oe <= 0; // Is this needed?
+                SIOD_oe <= 0; // and this
                 if (start) begin 
                     FSM_state <= FSM_START_SIGNAL;
                     latched_address <= address;
